@@ -1,3 +1,8 @@
+<!--
+ * @Descripttion: 
+ * @Author: xiongyb
+ * @LastEditTime: 2021-04-14 17:45:00
+-->
 
 
 <!DOCTYPE html>
@@ -7,9 +12,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .input-file {
+      padding: 16px;
+      display: block;
+    }
+    .txt-useragent {
+      padding: 16px;
+      display: block;
+      line-height:1.8;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-  <input type="file"  accept="video/*"  capture="camcorder">
-  <input type="file"  accept="image/*"  capture="camcorder">
+  <input class="input-file" type="file"  accept="video/*"  capture="camcorder">
+  <input class="input-file" type="file"  accept="image/*"  capture="camera">
+  <span class="txt-useragent" id="txt-useragent"></span>
+   <script>
+     (function(window) {
+        var $view = document.getElementById("txt-useragent");
+        $view.innerText = navigator.userAgent;
+     })(window);
+   </script>
 </body>
 </html>
