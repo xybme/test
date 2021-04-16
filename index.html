@@ -1,11 +1,22 @@
+<!--
+ * @Author       : liuxuhao
+ * @LastEditors  : liuxuhao
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta name="x5-page-mode" content="app"/>
+  <title>Upload TEST</title>
   <style>
+    body {
+      padding: 16px 0;
+    }
+    .label {
+      padding: 16px; 
+    }
     .input-file {
       padding: 16px;
       display: block;
@@ -19,13 +30,22 @@
   </style>
 </head>
 <body>
-  摄像机 &nbsp; &nbsp; <input class="input-file" type="file"  accept="video/*"  capture="camcorder">
-  照相机 &nbsp; &nbsp; <input class="input-file" type="file"  accept="image/*"  capture="camera">
+  <span class="label">摄像机 &nbsp; &nbsp; </span>
+  <input class="input-file" type="file"  accept="video/*"  capture="camcorder">
+  <span class="label">照相机 &nbsp; &nbsp; </span>
+  <input class="input-file" id="imageUploader" type="file"  accept="image/*"  capture="camera">
+  <div class="pad-row">
+      <button id="btn-click">点击上传</button>
+  </div>
   <span class="txt-useragent" id="txt-useragent"></span>
    <script>
      (function(window) {
         var $view = document.getElementById("txt-useragent");
+        var $btn = document.getElementById("btn-click");
         $view.innerText = navigator.userAgent;
+        $btn.addEventListener("click", function() {
+          document.getElementById("imageUploader").click();
+        });
      })(window);
    </script>
 </body>
