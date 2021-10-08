@@ -1,7 +1,7 @@
 <!--
  * @Descripttion: 
  * @Author: xiongyb
- * @LastEditTime: 2021-10-08 10:54:24
+ * @LastEditTime: 2021-10-08 11:02:33
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -18,18 +18,24 @@
 <body>
   <div id="app">
     <el-dialog
-      title=""
+      title="自动登录链接生成"
       :show-close="false"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="dialogVisible"
     >
       <el-form size="small">
+        <el-form-item label="环境">
+          <el-radio-group v-model="form.environment">
+            <el-radio :label="1">生产环境</el-radio>
+            <el-radio :label="2">测试环境</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="账号">
-          <el-input v-model="form.userName" maxlength="11"></el-input>
+          <el-input v-model="form.userName" maxlength="11" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="form.password"></el-input>
+          <el-input v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="是否禁用系统全览按钮">
           <el-radio-group v-model="form.isDisabledMenu">
@@ -38,7 +44,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="全图页面轮播周期(秒)">
-          <el-input v-model="form.cycle"></el-input>
+          <el-input v-model="form.cycle" placeholder="单位秒（例如轮播间隙5秒 直接输入5即可）"></el-input>
         </el-form-item>
         <el-link id="copy-target" :href="url" target="blank">{{ url }}</el-link>
         <el-button    
@@ -61,6 +67,7 @@
       return {
         dialogVisible: true,
         form: {
+          environment: 1,
           userName: '',
           password: '',
           isDisabledMenu: true,
@@ -69,8 +76,9 @@
       }
     },
     computed: {
-      url ({ form: { userName, password, isDisabledMenu, cycle } }) {
-        return `https://zkb.ininin.com/?v=cd2eea28#/login?userName=${userName}&password=${password}&isDisabledMenu=${isDisabledMenu}&cycle=${cycle * 1000}`
+      url ({ form: { userName, password, isDisabledMenu, cycle, environment } }) {
+        const orgin = environment === 1 ? 'https://zkb.ininin.com' : 'https://test-zkb-web.ininin.com'
+        return `${orgin}#/login?userName=${userName}&password=${password}&isDisabledMenu=${isDisabledMenu}&cycle=${cycle * 1000}`
       }
     },
     methods: {
