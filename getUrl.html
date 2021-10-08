@@ -1,0 +1,98 @@
+<!--
+ * @Descripttion: 
+ * @Author: xiongyb
+ * @LastEditTime: 2021-10-08 10:54:24
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.8/clipboard.js"></script>
+</head>
+<body>
+  <div id="app">
+    <el-dialog
+      title=""
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="dialogVisible"
+    >
+      <el-form size="small">
+        <el-form-item label="账号">
+          <el-input v-model="form.userName" maxlength="11"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="form.password"></el-input>
+        </el-form-item>
+        <el-form-item label="是否禁用系统全览按钮">
+          <el-radio-group v-model="form.isDisabledMenu">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="全图页面轮播周期(秒)">
+          <el-input v-model="form.cycle"></el-input>
+        </el-form-item>
+        <el-link id="copy-target" :href="url" target="blank">{{ url }}</el-link>
+        <el-button    
+          data-clipboard-action="copy"
+          data-clipboard-target="#copy-target" 
+          icon="el-icon-copy-document"
+          size="small" 
+          id="copyBtn"
+          @click="copy">
+          复制
+        </el-button>
+      </el-form>
+    </el-dialog>
+  </div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data () {
+      return {
+        dialogVisible: true,
+        form: {
+          userName: '',
+          password: '',
+          isDisabledMenu: true,
+          cycle: ''
+        }
+      }
+    },
+    computed: {
+      url ({ form: { userName, password, isDisabledMenu, cycle } }) {
+        return `https://zkb.ininin.com/?v=cd2eea28#/login?userName=${userName}&password=${password}&isDisabledMenu=${isDisabledMenu}&cycle=${cycle * 1000}`
+      }
+    },
+    methods: {
+      copy() {
+        const { userName, password } = this.form;
+        if (!userName || !password) {
+          this.$message({ message: '请先输入账号密码', type: 'warning'})
+          return
+        }
+        const clipboard = new ClipboardJS('#copyBtn');
+        clipboard.on("success",  (e) => {
+          console.log("success", e);
+          this.$message({ message: '复制成功', type: 'success'})
+          e.clearSelection();
+          clipboard.destroy();
+        });
+        clipboard.on("error", function (e) {
+          console.log("error", e);
+          clipboard.destroy();
+        });
+      }
+    }
+  })
+</script>
+</html>
